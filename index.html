@@ -13,6 +13,7 @@
     />
     <title>Chat App</title>
   </head>
+
   <body class="bg-dark">
     <div class="container">
       <div class="row">
@@ -36,7 +37,10 @@
             <div id="messages" class="card-block"></div>
           </div>
           <br />
+          <!-- Display Status -->
           <div id="status"></div>
+          <br />
+          <!-- Input area -->
           <textarea
             id="textarea"
             class="form-control"
@@ -45,7 +49,10 @@
         </div>
       </div>
     </div>
+
+    <!-- Link to Socket.io -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+    <!-- Link to JS -->
     <script src="chat.js"></script>
   </body>
 </html>
