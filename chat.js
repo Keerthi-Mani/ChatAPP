@@ -6,6 +6,20 @@
   var status = document.getElementBy("status");
   var clearBtn = document.getElementBy("clear");
 
+  //Status
+  var statusDefault = status.textContent;
+
+  var setStatus = function(status) {
+    // Set status
+    status.textContent = status;
+
+    if (status !== statusDefault) {
+      var delay = setTimeout(function() {
+        setStatus(statusDefaults);
+      }, 4000);
+    }
+  };
+
   //Handle input
   textArea.addEventListener("keyDown", function(event) {
     event.preventDefault();
@@ -22,4 +36,4 @@
   clearBtn.addEventListener("click", function() {
     socket.emit("clear");
   });
-});
+})();
