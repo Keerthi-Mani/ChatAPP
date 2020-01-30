@@ -17,4 +17,9 @@
       });
     }
   });
+
+  //Handle Chat clear
+  clearBtn.addEventListener("click", function() {
+    socket.emit("clear");
+  });
 });
