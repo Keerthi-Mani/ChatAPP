@@ -11,6 +11,12 @@
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
     />
+    <!-- Style -->
+    <style>
+      #messages {
+        height: 400px;
+      }
+    </style>
     <title>Chat App</title>
   </head>
 
@@ -18,38 +24,39 @@
     <div class="container">
       <div class="row">
         <div class="col-md-6 offset-md-3 col-sm-12 bg-primary">
-          <h1 class="text-center">Mongo Chat APP</h1>
-          <button class="btn btn-lg btn-danger float-right">Clear</button>
-        </div>
+          <h1 class="text-center">
+            Mongo Chat APP
+            <button class="btn btn-lg btn-danger float-right">Clear</button>
+          </h1>
 
-        <!-- Chat -->
-        <div id="chat">
-          <p>Enter your name</p>
-          <input
-            type="text"
-            id="username"
-            class="form-control form-control-lg"
-            placeholder="Enter your name"
-          />
-          <br />
-          <!-- Display messages -->
-          <div class="card">
-            <div id="messages" class="card-block"></div>
+          <!-- Chat -->
+          <div id="chat">
+            <p>Enter your name</p>
+            <input
+              type="text"
+              id="username"
+              class="form-control form-control-lg"
+              placeholder="Enter your name"
+            />
+            <br />
+            <!-- Display messages -->
+            <div class="card">
+              <div id="messages" class="card-block"></div>
+            </div>
+            <br />
+            <!-- Display Status -->
+            <div id="status"></div>
+            <br />
+            <!-- Input area -->
+            <textarea
+              id="textarea"
+              class="form-control"
+              placeholder="Enter message..."
+            ></textarea>
           </div>
-          <br />
-          <!-- Display Status -->
-          <div id="status"></div>
-          <br />
-          <!-- Input area -->
-          <textarea
-            id="textarea"
-            class="form-control"
-            placeholder="Enter message..."
-          ></textarea>
         </div>
       </div>
     </div>
-
     <!-- Link to Socket.io -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
     <!-- Link to JS -->

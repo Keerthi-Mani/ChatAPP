@@ -27,7 +27,7 @@
   if (socket !== undefined) {
     console.log("Connected to socket...");
 
-    //Handle output
+    //Handle outputs
     socket.on("output", function(data) {
       console.log(data);
       for (var i = 0; i < data.length; i++) {
@@ -40,6 +40,16 @@
       }
     });
 
+    //Get Status from Server
+    socket.on("status", function(data) {
+      setStatus(typeof data === "object" ? data.message : data);
+
+      //If status is clear
+      if (data.clear) {
+        textArea.value = "";
+      }
+    });
+
     //Handle input
     textArea.addEventListener("keyDown", function(event) {
       event.preventDefault();
@@ -49,12 +59,19 @@
           name: userName.value,
           message: textArea.value
         });
+        console.log("Name :" + name);
+        console.log("Message :" + message);
       }
     });
 
     //Handle Chat clear
     clearBtn.addEventListener("click", function() {
       socket.emit("clear");
+    });
+
+    //Clear Message
+    socket.on("cleared", function() {
+      messages.textContent = " ";
     });
   }
 })();
