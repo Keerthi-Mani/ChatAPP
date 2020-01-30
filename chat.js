@@ -1,21 +1,25 @@
 (function() {
-  //Get Elements
-  var userName = document.getElementById("username");
-  var textArea = document.getElementById("textarea");
-  var messages = document.getElementById("messages");
-  var status = document.getElementById("status");
-  var clearBtn = document.getElementById("clear");
+  var element = function(id) {
+    return document.getElementById(id);
+  };
 
-  //Status
+  // Get Elements
+  var status = element("status");
+  var messages = element("messages");
+  var textarea = element("textarea");
+  var username = element("username");
+  var clearBtn = element("clear");
+
+  // Set default status
   var statusDefault = status.textContent;
 
-  var setStatus = function(status) {
+  var setStatus = function(s) {
     // Set status
-    status.textContent = status;
+    status.textContent = s;
 
-    if (status !== statusDefault) {
+    if (s !== statusDefault) {
       var delay = setTimeout(function() {
-        setStatus(statusDefaults);
+        setStatus(statusDefault);
       }, 4000);
     }
   };
@@ -23,55 +27,57 @@
   // Connect to socket.io
   var socket = io.connect("http://127.0.0.1:4000");
 
-  //Check for connection
+  // Check for connection
   if (socket !== undefined) {
     console.log("Connected to socket...");
 
-    //Handle outputs
+    // Handle Output
     socket.on("output", function(data) {
-      console.log(data);
-      for (var i = 0; i < data.length; i++) {
-        //Build out message div
-        var message = document.createElement("div");
-        message.setAttribute("class", "chat-message");
-        message.textContent = data[i].name + ": " + data[i].message;
-        messages.appendChild(message);
-        messages.insertBefore(message, messages.firstChild);
+      //console.log(data);
+      if (data.length) {
+        for (var x = 0; x < data.length; x++) {
+          // Build out message div
+          var message = document.createElement("div");
+          message.setAttribute("class", "chat-message");
+          message.textContent = data[x].name + ": " + data[x].message;
+          messages.appendChild(message);
+          messages.insertBefore(message, messages.firstChild);
+        }
       }
     });
 
-    //Get Status from Server
+    // Get Status From Server
     socket.on("status", function(data) {
+      // get message status
       setStatus(typeof data === "object" ? data.message : data);
 
-      //If status is clear
+      // If status is clear, clear text
       if (data.clear) {
-        textArea.value = "";
+        textarea.value = "";
       }
     });
 
-    //Handle input
-    textArea.addEventListener("keyDown", function(event) {
-      event.preventDefault();
+    // Handle Input
+    textarea.addEventListener("keydown", function(event) {
       if (event.which === 13 && event.shiftKey == false) {
-        //Emit to server input
+        // Emit to server input
         socket.emit("input", {
-          name: userName.value,
-          message: textArea.value
+          name: username.value,
+          message: textarea.value
         });
-        console.log("Name :" + name);
-        console.log("Message :" + message);
+
+        event.preventDefault();
       }
     });
 
-    //Handle Chat clear
+    // Handle Chat Clear
     clearBtn.addEventListener("click", function() {
       socket.emit("clear");
     });
 
-    //Clear Message
+    // Clear Message
     socket.on("cleared", function() {
-      messages.textContent = " ";
+      messages.textContent = "";
     });
   }
 })();
